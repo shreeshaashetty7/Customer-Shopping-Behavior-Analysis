@@ -29,4 +29,18 @@ The project initial phase focused on building a clean ETL pipeline in Python to 
 * **Data Auditing & Schema Validation:** Imported core datasets using Pandas, conducting validation checks via `df.info()` and statistical metrics profiles.
 * **Statistical Imputation:** Identified 37 structural missing records localized in the review rating attribute. These null records were programmatically resolved by applying a median rating calculation mapped to each specific product category.
 * **Database Optimization:** Standardized column naming structures into a consistent `snake_case` taxonomy to maintain system readability and support rapid query execution across database joins.
-* **Feature Engineering Tiers:** Designed explicit
+* **Feature Engineering Tiers:** Designed explicit `age_group` demographic bins and calculated sequential `purchase_frequency_days` indicators to isolate unique customer loyalty cohorts.
+* **Data Integrity Checks:** Audited logical redundancies across tracking features (`discount_applied` versus `promo_code_used`) and permanently dropped duplicate dimensions.
+* **Automated Database Ingestion:** Established a relational interface using an active database adapter to seed the engineered arrays directly into a production local MySQL instance.
+
+---
+
+## 🗄️ 4. Relational Database Queries & Analytical Findings (SQL)
+With data successfully migrated to MySQL, high-impact business queries were executed to extract hidden transactional patterns:
+
+### 1. Demographic Revenue Distribution
+Evaluated the macro-revenue contributions generated between gender cohorts to uncover baseline market presence.
+```sql
+SELECT gender, SUM(purchase_amount) AS revenue 
+FROM shopping_behavior 
+GROUP BY gender;
